@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TurboBricks Legacy URL Converter</title>
+    <title>URL Converter</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,7 +51,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>TurboBricks Legacy URL Converter</h1>
+        <h1>URL Converter</h1>
         <input type="text" id="inputUrl" placeholder="Enter URL here" />
         <button onclick="convertUrl()">Convert</button>
         <div id="result" class="result"></div>
@@ -59,12 +59,15 @@
 
     <script>
         function convertUrl() {
-            const inputUrl = document.getElementById('inputUrl').value;
+            const inputUrl = document.getElementById('inputUrl').value.trim();
             const resultDiv = document.getElementById('result');
 
+            // Normalize the URL by converting to lowercase
+            const normalizedUrl = inputUrl.toLowerCase();
+
             // Regex to check and extract the number from the URL
-            const regex = /^https?:\/\/forums\.turbobricks\.com\/showthread\.php\?t=(\d+)$/;
-            const match = inputUrl.match(regex);
+            const regex = /^(?:https?:\/\/)?forums\.turbobricks\.com\/showthread\.php\?t=(\d+)$/;
+            const match = normalizedUrl.match(regex);
 
             if (match) {
                 const number = match[1];
@@ -72,7 +75,7 @@
                 const newUrl = `https://turbobricks.com/index.php?threads/${number}`;
                 resultDiv.innerHTML = `<span class="success">Converted URL: <a href="${newUrl}" target="_blank">${newUrl}</a></span>`;
             } else {
-                resultDiv.innerHTML = '<span class="error">Invalid URL format. Please use: https://forums.turbobricks.com/showthread.php?t=(NUMBER)</span>';
+                resultDiv.innerHTML = '<span class="error">Invalid URL format. Please use: forums.turbobricks.com/showthread.php?t=(NUMBER)</span>';
             }
         }
     </script>
